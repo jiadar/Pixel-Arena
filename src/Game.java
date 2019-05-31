@@ -157,16 +157,21 @@ public class Game {
    private int monster_y = 2;
    
    // this will be the size of the grid
-   private static int GRID_SIZE = 5;
+   private static int GRID_SIZE = 10;
 
    // define the grid - this should be defined eventually with the
    // objects you created to define the grid
-   private static char[][] gamemap = new char[][]{
-      { '.', '.', '.', '.', '.'},
-      { '.', '.', '.', '|', '.'},
-      { '.', '|', '.', '|', '.'},
-      { '.', '|', '.', '.', '.'},
-      { '.', '.', '.', '.', '.'},
+   private static final char[][] gamemap = new char[][]{
+      { '.', '.', '.', '.', '.', '|', '|', '.', '.', '.'},
+      { '.', '|', '.', '|', '.', '.', '.', '.', '|', '.'},
+      { '.', '|', '.', '.', '.', '.', '.', '.', '.', '.'},
+      { '.', '.', '.', '|', '|', '|', '.', '|', '.', '|'},
+      { '.', '.', '.', '|', '.', '.', '.', '|', '.', '.'},
+      { '.', '|', '.', '.', '.', '|', '.', '|', '|', '.'},
+      { '.', '|', '|', '|', '.', '|', '.', '.', '.', '.'},
+      { '.', '.', '.', '|', '.', '.', '.', '.', '.', '.'},
+      { '.', '|', '.', '.', '.', '.', '|', '|', '|', '.'},
+      { '.', '.', '.', '|', '|', '.', '.', '.', '.', '.'},
    };
 
    // what character to use for the player character 
@@ -176,7 +181,7 @@ public class Game {
    // Use a timer to make a background event loop
    // the background loop will execute every TIMER_INTERVAL from the
    // action performed method below
-   private static final int TIMER_INTERVAL = 300;
+   private static final int TIMER_INTERVAL = 1000;
    private Timer timer;
       
    // here we set up the window, key listener event loop, and text area
@@ -363,6 +368,36 @@ public class Game {
       
    }
 
+   // bad code for testing purposes
+   private int player_health = 15;
+   private int monster_health = 5;
+   private int player_attack_min = 3;
+   private int player_attack_max = 6;
+   private int monster_attack_max = 3;
+   private int monster_attack_min = 2;
+   
+   private void processBattle() {
+
+      if( !detectCollision() ) return;
+
+      Random rand = new Random(); 
+      int r = rand.nextInt(player_attack_max  - player_attack_min);
+      int r1 = rand.nextInt(monster_attack_max  - monster_attack_min);
+      player_health -= (monster_attack_min + r);
+      if(player_health <= 0)
+         System.exit(0);
+      if(monster_health > 0)
+         monster_health -= (player_attack_min + r);
+      return; 
+   } 
+   
+   private boolean detectCollision() {
+      if(pos_x == monster_x && pos_y == monster_y)
+         return true;
+
+      return false;
+   }
+   
    // This implements the timer updating the monster position asyncronously 
    public class TimerListener implements ActionListener 
    {
