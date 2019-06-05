@@ -18,4 +18,16 @@ public class Coords
 	{
 		return y;
 	}
+	
+	public void setX(int nx)
+	{
+		x = nx;
+	}
+	
+	public void setY(int ny)
+	{
+		y = ny;
+	}
+	
+	
 }

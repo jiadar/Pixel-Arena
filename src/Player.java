@@ -9,22 +9,28 @@ public class Player {
 	
 	private final int MAX_HEALTH = 100;
 	
-	public Player(int h, int a, int d)
+	public Player(int y, int x)
 	{
-		health = h;
-		attack = a;
-		defense = d;
+		playerX = x;
+		playerY = y;
 	}
 	
-	public Coords plyrLoc() {return new Coords(playerX, playerY);}
+	public Coords getLoc() {return new Coords(playerX, playerY);}
+	
 	public void setGold(int gold) { playerGold = gold; }
+	public void setHealth(int h) {health = h;}
+	public void setAttack(int a) {attack = a;}
+	public void setDefense(int d) {defense = d;}
+	
+	public int getGold() {return playerGold;}
+	public int getHealth() {return health;}
+	public int getAttack() {return attack;}
+	public int getDefense() {return defense;}
+	
 	public void addGold(int gold) { playerGold += gold; }
-	public int getGold() { return playerGold; }
+
 	public void move(String xy, int num)
 	{
-		if(xy.equals("x"))
-			playerX += num;
-		else if(xy.equals("y"))
-			playerY += num;
+		
 	}
 }
