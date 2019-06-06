@@ -321,6 +321,7 @@ public class Game
     	  break;
       case 88: 
     	  plyr.setAttack(plyr.getAttack() + 10);
+    	  System.out.print("attack");
     	  break;
       }
    }
@@ -437,7 +438,7 @@ public class Game
 				   System.out.println("plyr health: " + plyr.getHealth());
 				   if(plyr.getHealth()<=0)
 					   System.exit(0);
-				   	mon.setHealth(m.getHealth() - plyr.getAttack());
+				   	m.setHealth(m.getHealth() - plyr.getAttack());
 				   	System.out.println("mon health: " + m.getHealth());
 				   	if(m.getHealth()<= 0)
 				   		monList.remove(m);

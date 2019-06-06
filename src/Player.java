@@ -19,7 +19,11 @@ public class Player {
 	
 	public void setGold(int gold) { playerGold = gold; }
 	public void setHealth(int h) {health = h;}
-	public void setAttack(int a) {attack = a;}
+	public void setAttack(int a) 
+	{
+		attack = a;
+		System.out.println("SETTING ATTACK: " + attack);
+	}
 	public void setDefense(int d) {defense = d;}
 	
 	public int getGold() {return playerGold;}
