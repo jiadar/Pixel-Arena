@@ -1,126 +1,3 @@
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//import java.awt.event.KeyEvent;
-//import java.awt.event.KeyListener;
-//import java.io.FileNotFoundException;
-//import java.util.Scanner;
-//
-//public class Game implements KeyListener, ActionListener
-//{
-//	private static Player p = new Player(100,10,5);
-//	static Map map;
-//	
-//	public static void main(String[] args) 
-//	{
-//		new Game();
-//	}
-//	
-//	public Game()
-//	{
-//		setUpMap();
-//		//play();
-//	}
-//	public static void setUpMap()
-//	{
-//		try 
-//		{
-//			map = new Map();
-//			map.set(new Coords(p.playerY,p.playerX), new PlayerTile());
-//			map.showMap();
-//		} 
-//		catch (Exception e) 
-//		{
-//			e.printStackTrace();
-//		}
-//	}
-//	
-//	public static void play()
-//	{
-//		Scanner input = new Scanner(System.in);
-//		String str = input.next();
-//		Coords strt = new Coords(p.playerX, p.playerY);
-//		if(str.equals("Left"))
-//		{
-//			p.move("y", -1);
-//			System.out.println(p.plyrLoc().getY() + " , " + p.plyrLoc().getX());
-//		}
-//		//right
-//
-//		if(str.equals("Right"))
-//		{
-//			p.move("y", 1);
-//			System.out.println(p.plyrLoc().getY() + " , " + p.plyrLoc().getX());
-//		}
-//		//up
-//
-//		if(str.equals("Up"))
-//		{
-//			p.move("x", -1);
-//			System.out.println(p.plyrLoc().getY() + " , " + p.plyrLoc().getX());
-//		}
-//		
-//		//down
-//
-//		if(str.equals("Down"))
-//		{
-//			p.move("x", 1);
-//			System.out.println(p.plyrLoc().getY() + " , " + p.plyrLoc().getX());
-//		}
-//		map.swap(strt, new Coords(p.plyrLoc().getY(), p.plyrLoc().getX()));
-//		map.showMap();
-//	}
-//	
-//	
-//	@Override
-//	public void keyTyped(KeyEvent e) 
-//	{
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void keyPressed(KeyEvent e) 
-//	{
-//		//left
-//		if(e.getKeyCode() == 37)
-//		{
-//			p.move("y", -1);
-//		}
-//		//right
-//		if(e.getKeyCode() == 39)
-//		{
-//			p.move("y", 1);
-//		}
-//		//up
-//		if(e.getKeyCode() == 38)
-//		{
-//			p.move("x", -1);
-//		}
-//		//down
-//		if(e.getKeyCode() == 40)
-//		{
-//			p.move("x", 1);
-//		}
-//		
-//	}
-//
-//	@Override
-//	public void keyReleased(KeyEvent e) 
-//	{
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void actionPerformed(ActionEvent e) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//	
-//	
-//
-//}
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -135,22 +12,27 @@ import javax.swing.InputMap;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class Game 
 {
 
    // Set up swing window elements
-   
-   private JFrame frm = new JFrame("Game");
+
    private JTextArea txtArea1 = new JTextArea();
    private Font font = new Font("monospaced", Font.PLAIN, 36);
    private JScrollPane scrollPane = new JScrollPane();
    private final String LINE_SEPARATOR = System.lineSeparator();
-   private JTextArea txtArea2 = new JTextArea();
-
+   private JLabel healthLabel = new JLabel("text text");
+   JFrame f = new JFrame("Game");
+   
+   private GridBagConstraints c = new GridBagConstraints();
    Player plyr = new Player(1,1);
    Monster mon = new Monster(25, 5, 9,9);
    
@@ -202,22 +84,23 @@ public class Game
    // here we set up the window, key listener event loop, and text area
    private Game() 
    {
-      frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-      frm.getContentPane().add(txtArea2);
-      frm.getContentPane().add(scrollPane);
-      
-      scrollPane.setViewportView(txtArea1);
+        f.setVisible(true);
+        f.setSize(400, 400);
+        f.setLayout(new FlowLayout());
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        f.getContentPane().setBackground(Color.WHITE);
+
+        f.add(healthLabel);
+        f.add(txtArea1);
+        
+      //      scrollPane.setViewportView(txtArea1);
     
       txtArea1.addKeyListener(new KeyListener());
       txtArea1.setFont(font);
       txtArea1.setEditable(false);
       
-      txtArea2.setFont(font.deriveFont((float) 0.04));;;
-      txtArea2.setLocation(50, 10);
-      txtArea2.setEditable(false);
-      
       setUpMonster();
-      
+
       timer = new Timer(TIMER_INTERVAL, new TimerListener());
       timer.start();
    }
@@ -231,9 +114,9 @@ public class Game
       {
             public void run() 
             {
-               frm.setBounds(xLocation, yLocation, width, height);
+               f.setBounds(xLocation, yLocation, width, height);
                showMap();
-               frm.setVisible(true);
+               f.setVisible(true);
             }
          });
    }
@@ -242,7 +125,7 @@ public class Game
    //close the window
    public void close() 
    {
-      frm.dispose();
+      f.dispose();
    }
    
    public void setUpMonster()
@@ -254,7 +137,6 @@ public class Game
    private void updateMap() 
    {
       txtArea1.setText("");
-      txtArea2.setText("Health: " + "\n Attack: " + "\n Defense: ");
       showMap();
    }
 
@@ -440,9 +322,11 @@ public class Game
 					   System.exit(0);
 				   	m.setHealth(m.getHealth() - plyr.getAttack());
 				   	System.out.println("mon health: " + m.getHealth());
-				   	if(m.getHealth()<= 0)
+				   	if(m.getHealth()<= 0) {
 				   		monList.remove(m);
-			    }
+                     break;
+                  }                  
+            }
 		   }
 	 }
    }
@@ -473,9 +357,9 @@ public class Game
     		 System.out.println("added monster");
     	 }
     	 time++;
-         updateMonsterPosition();
-         attackStart();
-         updateMap();
+       updateMonsterPosition();
+       attackStart();
+       updateMap();
          // System.out.println("monster at: " + monster_x + "," + monster_y);
       }
    }
