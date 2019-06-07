@@ -10,9 +10,18 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+<<<<<<< HEAD
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import java.awt.*;
+=======
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import java.awt.*;
+import java.awt.event.*;
+>>>>>>> edc981cd0fb7c10460bc121c261b54c2e3750e16
 import javax.swing.*;
 
 public class Game 
@@ -24,7 +33,11 @@ public class Game
    private Font font = new Font("monospaced", Font.PLAIN, 36);
    private JScrollPane scrollPane = new JScrollPane();
    private final String LINE_SEPARATOR = System.lineSeparator();
+<<<<<<< HEAD
    private JLabel healthLabel = new JLabel("Health:");
+=======
+   private JLabel healthLabel = new JLabel("text text");
+>>>>>>> edc981cd0fb7c10460bc121c261b54c2e3750e16
    JFrame f = new JFrame("Game");
    
    private GridBagConstraints c = new GridBagConstraints();
@@ -78,7 +91,10 @@ public class Game
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.getContentPane().setBackground(Color.WHITE);
 
+<<<<<<< HEAD
         
+=======
+>>>>>>> edc981cd0fb7c10460bc121c261b54c2e3750e16
         f.add(healthLabel);
         f.add(txtArea1);
         
@@ -87,11 +103,15 @@ public class Game
       txtArea1.addKeyListener(new KeyListener());
       txtArea1.setFont(font);
       txtArea1.setEditable(false);
+<<<<<<< HEAD
       int[][] grid = new int[9][9];
       rndMap map = new rndMap(grid, 1, 1, 9, 9, 1);
       createMap(map);
-      setUpMonster();
+=======
       
+>>>>>>> edc981cd0fb7c10460bc121c261b54c2e3750e16
+      setUpMonster();
+
       timer = new Timer(TIMER_INTERVAL, new TimerListener());
       timer.start();
    }
@@ -137,7 +157,11 @@ public class Game
    // the position of the player character, monsters, and other items
    private void updateMap() 
    {
+<<<<<<< HEAD
       healthLabel.setText("Health: " + plyr.getHealth() + "\nScore: " + score);
+=======
+      txtArea1.setText("");
+>>>>>>> edc981cd0fb7c10460bc121c261b54c2e3750e16
       showMap();
    }
 
@@ -327,6 +351,7 @@ public class Game
 					   System.exit(0);
 				   	m.setHealth(m.getHealth() - plyr.getAttack());
 				   	System.out.println("mon health: " + m.getHealth());
+<<<<<<< HEAD
 				   	if(m.getHealth()<= 0) 
 				   	{
 				   		monList.remove(m);
@@ -334,6 +359,13 @@ public class Game
                      break;
 				   	}                  
 			   }
+=======
+				   	if(m.getHealth()<= 0) {
+				   		monList.remove(m);
+                     break;
+                  }                  
+            }
+>>>>>>> edc981cd0fb7c10460bc121c261b54c2e3750e16
 		   }
 	 }
    }
@@ -364,9 +396,16 @@ public class Game
     		 System.out.println("added monster");
     	 }
     	 time++;
+<<<<<<< HEAD
     	 updateMonsterPosition();
        	 attackStart();
        	 updateMap();
+=======
+       updateMonsterPosition();
+       attackStart();
+       updateMap();
+         // System.out.println("monster at: " + monster_x + "," + monster_y);
+>>>>>>> edc981cd0fb7c10460bc121c261b54c2e3750e16
       }
    }
    
