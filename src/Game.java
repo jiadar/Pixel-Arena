@@ -1,162 +1,41 @@
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//import java.awt.event.KeyEvent;
-//import java.awt.event.KeyListener;
-//import java.io.FileNotFoundException;
-//import java.util.Scanner;
-//
-//public class Game implements KeyListener, ActionListener
-//{
-//	private static Player p = new Player(100,10,5);
-//	static Map map;
-//	
-//	public static void main(String[] args) 
-//	{
-//		new Game();
-//	}
-//	
-//	public Game()
-//	{
-//		setUpMap();
-//		//play();
-//	}
-//	public static void setUpMap()
-//	{
-//		try 
-//		{
-//			map = new Map();
-//			map.set(new Coords(p.playerY,p.playerX), new PlayerTile());
-//			map.showMap();
-//		} 
-//		catch (Exception e) 
-//		{
-//			e.printStackTrace();
-//		}
-//	}
-//	
-//	public static void play()
-//	{
-//		Scanner input = new Scanner(System.in);
-//		String str = input.next();
-//		Coords strt = new Coords(p.playerX, p.playerY);
-//		if(str.equals("Left"))
-//		{
-//			p.move("y", -1);
-//			System.out.println(p.plyrLoc().getY() + " , " + p.plyrLoc().getX());
-//		}
-//		//right
-//
-//		if(str.equals("Right"))
-//		{
-//			p.move("y", 1);
-//			System.out.println(p.plyrLoc().getY() + " , " + p.plyrLoc().getX());
-//		}
-//		//up
-//
-//		if(str.equals("Up"))
-//		{
-//			p.move("x", -1);
-//			System.out.println(p.plyrLoc().getY() + " , " + p.plyrLoc().getX());
-//		}
-//		
-//		//down
-//
-//		if(str.equals("Down"))
-//		{
-//			p.move("x", 1);
-//			System.out.println(p.plyrLoc().getY() + " , " + p.plyrLoc().getX());
-//		}
-//		map.swap(strt, new Coords(p.plyrLoc().getY(), p.plyrLoc().getX()));
-//		map.showMap();
-//	}
-//	
-//	
-//	@Override
-//	public void keyTyped(KeyEvent e) 
-//	{
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void keyPressed(KeyEvent e) 
-//	{
-//		//left
-//		if(e.getKeyCode() == 37)
-//		{
-//			p.move("y", -1);
-//		}
-//		//right
-//		if(e.getKeyCode() == 39)
-//		{
-//			p.move("y", 1);
-//		}
-//		//up
-//		if(e.getKeyCode() == 38)
-//		{
-//			p.move("x", -1);
-//		}
-//		//down
-//		if(e.getKeyCode() == 40)
-//		{
-//			p.move("x", 1);
-//		}
-//		
-//	}
-//
-//	@Override
-//	public void keyReleased(KeyEvent e) 
-//	{
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void actionPerformed(ActionEvent e) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//	
-//	
-//
-//}
-
 import java.util.ArrayList;
 import java.util.Random;
 
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import javax.swing.InputMap;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import java.awt.*;
+import javax.swing.*;
 
 public class Game 
 {
 
    // Set up swing window elements
-   
-   private JFrame frm = new JFrame("Game");
+
    private JTextArea txtArea1 = new JTextArea();
    private Font font = new Font("monospaced", Font.PLAIN, 36);
    private JScrollPane scrollPane = new JScrollPane();
    private final String LINE_SEPARATOR = System.lineSeparator();
-   private JTextArea txtArea2 = new JTextArea();
-
+   private JLabel healthLabel = new JLabel("Health:");
+   JFrame f = new JFrame("Game");
+   
+   private GridBagConstraints c = new GridBagConstraints();
    Player plyr = new Player(1,1);
-   Monster mon = new Monster(25, 5, 9,9);
+   Monster mon = new Monster(25, 10, 9,9);
    
    // this will track the position of the player character
    private int pos_x = 0;
    private int pos_y = 0;
+   
+   private int score = 0;
    
    // this will be the size of the grid
    private static int GRID_SIZE = 10;
@@ -166,26 +45,17 @@ public class Game
    
    // define the grid - this should be defined eventually with the
    // objects you created to define the grid
-   private static char[][] gamemap = new char[][]{
-//      { '.', '.', '.', '.', '.', '|', '|', '.', '.', '.'},
-//      { '.', '|', '.', '|', '.', '.', '.', '.', '|', '.'},
-//      { '.', '|', '.', '|', '|', '.', '|', '|', '|', '.'},
-//      { '.', '|', '.', '.', '.', '.', '.', '.', '.', '.'},
-//      { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
-//      { '.', '|', '.', '.', '.', '.', '|', '|', '.', '|'},
-//      { '.', '.', '.', '.', '.', '.', '|', '.', '.', '.'},
-//      { '.', '|', '|', '.', '|', '.', '.', '.', '.', '.'},
-//      { '.', '.', '.', '.', '|', '.', '.', '.', '.', '.'},
-//      { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
+   private static char[][] gamemap = new char[][]
+   {
 	    { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
 	    { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
 	    { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
 	    { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
 	    { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
 	    { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
-	    { '.', '.', '.', '.', '|', '.', '.', '.', '.', '.'},
-	    { '.', '.', '.', '.', '|', '.', '.', '.', '.', '.'},
-	    { '.', '.', '.', '.', '|', '.', '.', '.', '.', '.'},
+	    { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
+	    { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
+	    { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
 	    { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
    };
 
@@ -202,26 +72,40 @@ public class Game
    // here we set up the window, key listener event loop, and text area
    private Game() 
    {
-      frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-      frm.getContentPane().add(txtArea2);
-      frm.getContentPane().add(scrollPane);
-      
-      scrollPane.setViewportView(txtArea1);
+        f.setVisible(true);
+        f.setSize(400, 400);
+        f.setLayout(new FlowLayout());
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        f.getContentPane().setBackground(Color.WHITE);
+
+        
+        f.add(healthLabel);
+        f.add(txtArea1);
+        
+      //      scrollPane.setViewportView(txtArea1);
     
       txtArea1.addKeyListener(new KeyListener());
       txtArea1.setFont(font);
       txtArea1.setEditable(false);
-      
-      txtArea2.setFont(font.deriveFont((float) 0.04));;;
-      txtArea2.setLocation(50, 10);
-      txtArea2.setEditable(false);
-      
+      int[][] grid = new int[9][9];
+      rndMap map = new rndMap(grid, 1, 1, 9, 9, 1);
+      createMap(map);
       setUpMonster();
       
       timer = new Timer(TIMER_INTERVAL, new TimerListener());
       timer.start();
    }
-
+   
+   public static void createMap(rndMap map)
+   {
+		//int[][] grid, int x, int y, int width, int height, int orientation
+		for(int w = 0; w < gamemap.length-1; w++)
+			for(int h = 0; h < gamemap[0].length-1; h++)
+			{
+				if(!map.isWall(w, h)) 
+					gamemap[w][h] = '|';
+			}
+   }
    // open the initial window and show the game map
    // we can call this from the instance runner
    public void open(final int xLocation, final int yLocation, final int width,
@@ -231,9 +115,9 @@ public class Game
       {
             public void run() 
             {
-               frm.setBounds(xLocation, yLocation, width, height);
+               f.setBounds(xLocation, yLocation, width, height);
                showMap();
-               frm.setVisible(true);
+               f.setVisible(true);
             }
          });
    }
@@ -242,7 +126,7 @@ public class Game
    //close the window
    public void close() 
    {
-      frm.dispose();
+      f.dispose();
    }
    
    public void setUpMonster()
@@ -253,8 +137,7 @@ public class Game
    // the position of the player character, monsters, and other items
    private void updateMap() 
    {
-      txtArea1.setText("");
-      txtArea2.setText("Health: " + "\n Attack: " + "\n Defense: ");
+      healthLabel.setText("Health: " + plyr.getHealth() + "\nScore: " + score);
       showMap();
    }
 
@@ -306,18 +189,22 @@ public class Game
       switch (keyCode) {
       case 37: if( gamemap[pos_y][pos_x - 1] != '|' && !check4Monster(pos_y, pos_x - 1))
     	 pos_x = pos_x - 1;
+      	 plyr.setHealth(plyr.getHealth() + 1);
          break;
       case 38: if( gamemap[pos_y - 1][pos_x] != '|' && !check4Monster(pos_y - 1, pos_x))
-    	  pos_y = pos_y - 1;
+    	 pos_y = pos_y - 1;
+      	 plyr.setHealth(plyr.getHealth() + 1);
          break;
       case 39: if( gamemap[pos_y][pos_x + 1] != '|' && !check4Monster(pos_y, pos_x + 1))
     	 pos_x = pos_x + 1;
+      	 plyr.setHealth(plyr.getHealth() + 1);
          break;
       case 40: if( gamemap[pos_y + 1][pos_x] != '|' && !check4Monster(pos_y + 1, pos_x))
     	 pos_y = pos_y + 1;
+      	 plyr.setHealth(plyr.getHealth() + 1);
          break;
       case 90: 
-    	  plyr.setHealth(plyr.getHealth() + 10);
+    	  plyr.setHealth(plyr.getHealth() + 1);
     	  break;
       case 88: 
     	  plyr.setAttack(plyr.getAttack() + 10);
@@ -440,9 +327,13 @@ public class Game
 					   System.exit(0);
 				   	m.setHealth(m.getHealth() - plyr.getAttack());
 				   	System.out.println("mon health: " + m.getHealth());
-				   	if(m.getHealth()<= 0)
+				   	if(m.getHealth()<= 0) 
+				   	{
 				   		monList.remove(m);
-			    }
+				   		score++;
+                     break;
+				   	}                  
+			   }
 		   }
 	 }
    }
@@ -466,17 +357,16 @@ public class Game
    {
       public void actionPerformed(ActionEvent evt) 
       {
-    	 if(time == 20)
+    	 if(time == 15)
     	 {
     		 addMon();
     		 time = 0;
     		 System.out.println("added monster");
     	 }
     	 time++;
-         updateMonsterPosition();
-         attackStart();
-         updateMap();
-         // System.out.println("monster at: " + monster_x + "," + monster_y);
+    	 updateMonsterPosition();
+       	 attackStart();
+       	 updateMap();
       }
    }
    
@@ -488,6 +378,6 @@ public class Game
    private static final class GameHolder 
    {
       static final Game INSTANCE = new Game();
-   }
+   }  
+   
 }
-

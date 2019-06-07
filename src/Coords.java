@@ -3,6 +3,7 @@ public class Coords
 {
 	int x;
 	int y;
+	boolean discovered = false;
 	public Coords(int newX, int newY)
 	{
 		x = newX;
@@ -19,6 +20,15 @@ public class Coords
 		return y;
 	}
 	
+	public boolean getDis()
+	{
+		return discovered;
+	}
+	
+	public void setDis(boolean x)
+	{
+		discovered = x;
+	}
 	public void setX(int nx)
 	{
 		x = nx;
